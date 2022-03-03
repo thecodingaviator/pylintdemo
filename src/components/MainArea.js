@@ -18,11 +18,11 @@ export default class MainArea extends React.Component {
         console.clear()
         event.preventDefault();
         let code = this.state.value;
+        /* Escape all backslashes in code */
+        code = code.replace(/\\/g, "\\\\");
         /* Escape all quotes in code */
         code = code.replace(/'/g, "\\'");
         code = code.replace(/"/g, "\\\"");
-        /* Escape all backslashes in code */
-        code = code.replace(/\\/g, "\\\\");
         /* Escape all newlines in code */
         code = code.replace(/\n/g, "\\n");
         /* Escape all tabs in code */
