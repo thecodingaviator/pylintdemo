@@ -1,0 +1,22 @@
+.form-group {
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: min(5vh, 100px);
+}
+
+.form-group * {
+    width: 90%;
+    text-align: center;
+}
+
+.form-group textarea {
+    text-align: initial;
+}
+
+#result p {
+    text-align: left;
+}
