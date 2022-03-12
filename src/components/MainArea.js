@@ -43,7 +43,7 @@ export default class MainArea extends React.Component {
         }
 
         let response = ''
-        fetch('https://cors-anywhere.herokuapp.com/https://pinnate-industrious-study.glitch.me/code', reqOptions)
+        fetch('https://plump-linen-binder.glitch.me/code', reqOptions)
             .then(res => res.json())
             .then(res => {
                 response = res.code
