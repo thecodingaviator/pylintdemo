@@ -1,11 +1,13 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MainArea from './components/MainArea.js';
 
+import { Container } from 'react-bootstrap';
+
 function App() {
   return (
-    <div className="App">
+    <Container>
       <MainArea />
-    </div>
+    </Container>
   );
 }
 
