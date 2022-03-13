@@ -3,29 +3,26 @@ import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
 
-export default function Signup() {
+export default function ForgotPassword() {
   const emailRef = createRef();
-  const passwordRef = createRef();
-  const passwordConfirmRef = createRef();
-  const { signup } = useAuth();
+  const { resetPassword } = useAuth();
 
   const [ error, setError ] = useState('');
   const [ loading, setLoading ] = useState(false);
+  const [ message, setMessage ] = useState('');
 
   async function handleSubmit(event) {
     event.preventDefault();
 
-    if(passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError("Passwords do not match");
-    }
-
     try{
+      setMessage('');
       setLoading(true);
       setError('');
-      await signup(emailRef.current.value, passwordRef.current.value);
+      await resetPassword(emailRef.current.value);
+      setMessage('Check your email for a password reset link.');
     }
     catch(error) {
-      setError(error.message);
+      setError("Failed to reset password");
     }
 
     setLoading(false);
@@ -36,32 +33,28 @@ export default function Signup() {
       <Card className="text-center mt-5">
         <Card.Header>
           <h2>
-          Sign Up
+          Reset Password
           </h2>
         </Card.Header>
         <Card.Body>
           {error && <Alert variant="danger">{error}</Alert>}
+          {message && <Alert variant="success">{message}</Alert>}
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="email" id="email">
               <Form.Label>Email address</Form.Label>
               <Form.Control ref={emailRef} type="email" placeholder="Enter email" required/>
             </Form.Group>
-            <Form.Group controlId="password" id="password">
-              <Form.Label>Password</Form.Label>
-              <Form.Control ref={passwordRef} type="password" placeholder="Enter password" required/>
-            </Form.Group>
-            <Form.Group controlId="password-confirm" id="password-confirm">
-              <Form.Label>Confirm Password</Form.Label>
-              <Form.Control ref={passwordConfirmRef} type="password" placeholder="Confirm password" required/>
-            </Form.Group>
             <Button variant="primary" type="submit" className="w-100 mt-3" disabled={loading}>
-              Sign up!
+              Reset password
             </Button>
           </Form>
+          <div className="w-100 text-center mt-3">
+            Login? <Link to="/">Here</Link>
+          </div>
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
-        Already have an account? <Link to="/login">Login</Link>
+        New? <Link to="/signup">Sign up</Link>
       </div>
     </>
   )

@@ -1,28 +1,25 @@
 import React, { createRef, useState } from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-export default function Signup() {
+export default function Login() {
   const emailRef = createRef();
   const passwordRef = createRef();
-  const passwordConfirmRef = createRef();
-  const { signup } = useAuth();
+  const { login } = useAuth();
 
   const [ error, setError ] = useState('');
   const [ loading, setLoading ] = useState(false);
+  const navigate = useNavigate();
 
   async function handleSubmit(event) {
     event.preventDefault();
 
-    if(passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError("Passwords do not match");
-    }
-
     try{
       setLoading(true);
       setError('');
-      await signup(emailRef.current.value, passwordRef.current.value);
+      await login(emailRef.current.value, passwordRef.current.value);
+      navigate('/');
     }
     catch(error) {
       setError(error.message);
@@ -36,7 +33,7 @@ export default function Signup() {
       <Card className="text-center mt-5">
         <Card.Header>
           <h2>
-          Sign Up
+          Log In
           </h2>
         </Card.Header>
         <Card.Body>
@@ -50,18 +47,17 @@ export default function Signup() {
               <Form.Label>Password</Form.Label>
               <Form.Control ref={passwordRef} type="password" placeholder="Enter password" required/>
             </Form.Group>
-            <Form.Group controlId="password-confirm" id="password-confirm">
-              <Form.Label>Confirm Password</Form.Label>
-              <Form.Control ref={passwordConfirmRef} type="password" placeholder="Confirm password" required/>
-            </Form.Group>
             <Button variant="primary" type="submit" className="w-100 mt-3" disabled={loading}>
-              Sign up!
+              Login!
             </Button>
           </Form>
+          <div className="w-100 text-center mt-3">
+            Forgot password? <Link to="/forgot-password">Here</Link>
+          </div>
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
-        Already have an account? <Link to="/login">Login</Link>
+        New? <Link to="/signup">Sign up</Link>
       </div>
     </>
   )

@@ -8,7 +8,7 @@ export default class MainArea extends React.Component {
         super(props);
         this.state = {
             value: '',
-            respo: ''
+            respo: '',
         };
     }
 
@@ -17,9 +17,12 @@ export default class MainArea extends React.Component {
     }
 
     handleSubmit = (event) => {
-        console.clear()
-        this.setState({ respo: '' })
         event.preventDefault();
+
+        this.setState({
+            respo: '',
+        });
+
         let code = this.state.value;
         /* Escape all backslashes in code */
         code = code.replace(/\\/g, "\\\\");
@@ -52,28 +55,28 @@ export default class MainArea extends React.Component {
                 response = res.code
                 const rating = response.substring(response.indexOf("Your code has been rated"))
                 response = response.substring(0, response.indexOf(",------------------"))
-                response = response.substring(19+33)
+                response = response.substring(19 + 33)
                 const regex = /,(?![^()]*\))/
-                response = response.split(regex).map(str => 
-                <details>
-                    <summary>
-                        {str.substring(15, 15+str.substring(15).indexOf('('))}
-                    </summary>
-                    {str.substring(15+str.substring(15).indexOf('('))}
-                </details>
+                response = response.split(regex).map(str =>
+                    <details>
+                        <summary>
+                            {str.substring(15, 15 + str.substring(15).indexOf('('))}
+                        </summary>
+                        {str.substring(15 + str.substring(15).indexOf('('))}
+                    </details>
                 )
                 response.push(<p>{rating}</p>)
                 this.setState({
                     respo: response
                 })
             })
+        this.inProgress = false;
     }
 
     render() {
         return (
             <div className="form-container">
                 <div className="form-group">
-                    <label htmlFor="textbox">Paste your python code below</label>
                     <MonacoEditor
                         language="python"
                         height="50vh"
@@ -85,9 +88,9 @@ export default class MainArea extends React.Component {
                         onChange={this.handleChange.bind(this)}
                     />
                     <input type="submit" value="Submit" className="btn btn-primary mt-3 mb-5 mx-auto" onClick={this.handleSubmit} />
-                    <p id="result">
+                    <div id="result">
                         {this.state.respo}
-                    </p>
+                    </div>
                 </div>
             </div>
         )
