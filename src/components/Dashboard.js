@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Card, Button, Alert } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useNavigate, Navigate } from "react-router-dom";
-import MainArea from "./MainArea";
+import Editor from "./Editor";
 
 export default function Dashboard() {
   const { currentUser, logout } = useAuth();
@@ -41,7 +41,7 @@ export default function Dashboard() {
           </Button>
         </div>
       </Card>
-      <MainArea />
+      <Editor />
     </>
   ) : (
     <Navigate to="/login" />
