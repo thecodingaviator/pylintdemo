@@ -11,6 +11,7 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [currentUID, setCurrentUID] = useState(null);
 
   function signup(email, password) {
     return auth.createUserWithEmailAndPassword(email, password);
@@ -43,8 +44,8 @@ export function AuthProvider({ children }) {
     });
   }
 
-  async function getScores() {
-    const scoresRef = doc(db, 'users', auth.currentUser.uid);
+  async function getScores(userID) {
+    const scoresRef = doc(db, 'users', userID ? userID : auth.currentUser.uid);
     const scores = await getDoc(scoresRef);
 
     if(scores.exists()) {
@@ -56,6 +57,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       setCurrentUser(user);
+      setCurrentUID(user ? user.uid : null);
       setLoading(false);
     });
 
@@ -64,6 +66,7 @@ export function AuthProvider({ children }) {
 
   const value = {
     currentUser,
+    currentUID,
     signup,
     login,
     logout,

@@ -1,20 +1,29 @@
-import MonacoEditor from '@uiw/react-monacoeditor';
+import React, { useEffect } from 'react';
 
-import React from 'react';
+import MonacoEditor from '@uiw/react-monacoeditor';
+import { useAuth } from '../contexts/AuthContext';
+import { Link } from 'react-router-dom';
+
 import './Editor.css';
 
-import { useAuth } from '../contexts/AuthContext';
-
-export default function MainArea() {
+export default function Editor() {
     const [value, setValue] = React.useState('');
     const [responseContent, setResponseContent] = React.useState('');
     const [inProgress, setInProgress] = React.useState(false);
+    const [link, setLink] = React.useState('');
+    const { currentUID } = useAuth();
 
     const { addScore, getScores } = useAuth();
 
     function handleChange(newValue, event) {
         setValue(newValue);
     }
+
+    useEffect(() => {
+        if (currentUID) {
+            setLink("/view/" + currentUID);
+        }
+    }, [currentUID]);
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -84,6 +93,7 @@ export default function MainArea() {
     return (
         <div className="form-container">
             <div className="form-group">
+                
                 <MonacoEditor
                     language="python"
                     height="50vh"
@@ -94,7 +104,12 @@ export default function MainArea() {
                     }}
                     onChange={handleChange}
                 />
-                <input type="submit" value="Submit" className="btn btn-primary mt-3 mb-5 mx-auto" disabled={inProgress} onClick={handleSubmit} />
+                <input type="submit" value="Submit" className="btn btn-primary mt-3 mb-3 mx-auto" disabled={inProgress} onClick={handleSubmit} />
+                <Link to={link} className="mb-5">
+                    <button className="btn btn-primary w-100">
+                        Click here to view your scores!
+                    </button>
+                </Link>
                 <div id="result">
                     {responseContent}
                 </div>

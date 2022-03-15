@@ -7,6 +7,7 @@ import Login from './components/Login.js';
 import Signup from './components/Signup.js';
 import ForgotPassword from './components/ForgotPassword.js';
 import UpdateProfile from './components/UpdateProfile.js';
+import UserData from './components/UserData.js';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
                 <Route exact path="/" element={<Dashboard />} />
                 <Route path="/signup" element={<Signup/>}/>
                 <Route path="/login" element={<Login/>}/>
+                <Route path="/view/:userID" element={<UserData/>}/>
                 <Route path="/update-profile" element={<UpdateProfile/>}/>
                 <Route path="/forgot-password" element={<ForgotPassword/>}/>
               </Routes>
