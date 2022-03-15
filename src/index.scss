@@ -1,0 +1,55 @@
+* {
+  --bs-body-bg: rgb(29, 37,44);
+  --bs-body-color: rgb(255, 255, 255);
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.card {
+  border: 5px solid white;
+  border-radius: 0;
+  background-color: var(--bs-body-bg);
+
+  .card-header, .card-body {
+    border: 0;
+    border-radius: 0;
+    background-color: var(--bs-body-bg);
+  }
+}
+
+a {
+  color: #fff;
+}
+
+.btn {
+  border-radius: 0;
+  margin-left: auto;
+  margin-right: auto;
+
+  .btn-primary {
+    background-color: var(--bs-body-bg)
+  }
+}
+
+button {
+  > a {
+    text-decoration: none;
+  }
+}
+
+.form-control {
+  border-radius: 0;
+  border: 0;
+}

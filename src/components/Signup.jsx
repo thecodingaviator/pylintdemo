@@ -1,6 +1,6 @@
 import React, { createRef, useState } from 'react';
 import {
-  Form, Button, Card, Alert,
+  Form, Button, Card, Alert, Col, Row,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -34,34 +34,38 @@ export default function Signup() {
 
   return (
     <>
-      <Card className="text-center mt-5">
-        <Card.Header>
-          <h2>
-            Sign Up
-          </h2>
-        </Card.Header>
-        <Card.Body>
-          {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="email" id="email">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control ref={emailRef} type="email" placeholder="Enter email" required />
-            </Form.Group>
-            <Form.Group controlId="password" id="password">
-              <Form.Label>Password</Form.Label>
-              <Form.Control ref={passwordRef} type="password" placeholder="Enter password" required />
-            </Form.Group>
-            <Form.Group controlId="password-confirm" id="password-confirm">
-              <Form.Label>Confirm Password</Form.Label>
-              <Form.Control ref={passwordConfirmRef} type="password" placeholder="Confirm password" required />
-            </Form.Group>
-            <Button variant="primary" type="submit" className="w-100 mt-3" disabled={loading}>
-              Sign up!
-            </Button>
-          </Form>
-        </Card.Body>
-      </Card>
-      <div className="w-100 text-center mt-2">
+      <Row>
+        <Col md={{ span: 6, offset: 3 }}>
+          <Card className="text-center mt-5">
+            <Card.Header>
+              <h2>
+                Sign Up
+              </h2>
+            </Card.Header>
+            <Card.Body>
+              {error && <Alert variant="danger">{error}</Alert>}
+              <Form onSubmit={handleSubmit}>
+                <Form.Group controlId="email" id="email">
+                  <Form.Label>Email address</Form.Label>
+                  <Form.Control ref={emailRef} type="email" placeholder="Enter email" required />
+                </Form.Group>
+                <Form.Group controlId="password" id="password" className="mt-2">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control ref={passwordRef} type="password" placeholder="Enter password" required />
+                </Form.Group>
+                <Form.Group controlId="password-confirm" id="password-confirm" className="mt-2">
+                  <Form.Label>Confirm Password</Form.Label>
+                  <Form.Control ref={passwordConfirmRef} type="password" placeholder="Confirm password" required />
+                </Form.Group>
+                <Button variant="primary" type="submit" className="w-100 mt-3" disabled={loading}>
+                  Sign up!
+                </Button>
+              </Form>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+      <div className="w-100 text-center mt-3">
         Already have an account?
         {' '}
         <Link to="/login">Login</Link>

@@ -1,6 +1,6 @@
 import React, { createRef, useState } from 'react';
 import {
-  Form, Button, Card, Alert,
+  Form, Button, Card, Alert, Row, Col,
 } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -30,40 +30,42 @@ export default function Login() {
   }
 
   return (
-    <>
-      <Card className="text-center mt-5">
-        <Card.Header>
-          <h2>
-            Log In
-          </h2>
-        </Card.Header>
-        <Card.Body>
-          {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="email" id="email">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control ref={emailRef} type="email" placeholder="Enter email" required />
-            </Form.Group>
-            <Form.Group controlId="password" id="password">
-              <Form.Label>Password</Form.Label>
-              <Form.Control ref={passwordRef} type="password" placeholder="Enter password" required />
-            </Form.Group>
-            <Button variant="primary" type="submit" className="w-100 mt-3" disabled={loading}>
-              Login!
-            </Button>
-          </Form>
-          <div className="w-100 text-center mt-3">
-            Forgot password?
-            {' '}
-            <Link to="/forgot-password">Here</Link>
-          </div>
-        </Card.Body>
-      </Card>
-      <div className="w-100 text-center mt-2">
-        New?
-        {' '}
-        <Link to="/signup">Sign up</Link>
-      </div>
-    </>
+    <Row>
+      <Col md={{ span: 4, offset: 4 }}>
+        <Card className="text-center mt-5">
+          <Card.Header>
+            <h2>
+              Log In
+            </h2>
+          </Card.Header>
+          <Card.Body>
+            {error && <Alert variant="danger">{error}</Alert>}
+            <Form onSubmit={handleSubmit}>
+              <Form.Group controlId="email" id="email">
+                <Form.Label>Email address</Form.Label>
+                <Form.Control ref={emailRef} type="email" placeholder="Enter email" required />
+              </Form.Group>
+              <Form.Group controlId="password" id="password" className="mt-2">
+                <Form.Label>Password</Form.Label>
+                <Form.Control ref={passwordRef} type="password" placeholder="Enter password" required />
+              </Form.Group>
+              <Button variant="primary" type="submit" className="mt-3" disabled={loading}>
+                Login!
+              </Button>
+            </Form>
+            <div className="w-100 text-center mt-3">
+              Forgot password?
+              {' '}
+              <Link to="/forgot-password">Here</Link>
+            </div>
+          </Card.Body>
+        </Card>
+        <div className="w-100 text-center mt-2">
+          New?
+          {' '}
+          <Link to="/signup">Sign up</Link>
+        </div>
+      </Col>
+    </Row>
   );
 }

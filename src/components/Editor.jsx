@@ -94,7 +94,6 @@ export default function Editor() {
   return (
     <div className="form-container">
       <div className="form-group">
-
         <MonacoEditor
           language="python"
           height="50vh"

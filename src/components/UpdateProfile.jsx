@@ -65,11 +65,11 @@ export default function UpdateProfile() {
                 defaultValue={currentUser.email}
               />
             </Form.Group>
-            <Form.Group controlId="password" id="password">
+            <Form.Group controlId="password" id="password" className="mt-2">
               <Form.Label>Password</Form.Label>
               <Form.Control ref={passwordRef} type="password" placeholder="Leave blank to keep same" />
             </Form.Group>
-            <Form.Group controlId="password-confirm" id="password-confirm">
+            <Form.Group controlId="password-confirm" id="password-confirm" className="mt-2">
               <Form.Label>Confirm Password</Form.Label>
               <Form.Control ref={passwordConfirmRef} type="password" placeholder="Leave blank to keep same" />
             </Form.Group>
@@ -79,9 +79,7 @@ export default function UpdateProfile() {
           </Form>
         </Card.Body>
       </Card>
-      <div className="w-100 text-center mt-2">
-        <Link to="/">Go back</Link>
-      </div>
+      <Link to="/" className="btn btn-primary w-100 mt-5">Go back</Link>
     </>
   ) : <Navigate to="/" />;
 }
