@@ -15,7 +15,7 @@ export default function UserData() {
       scores = scores.split(',');
       scores = scores.map((score) => (
         <p>
-          {parseInt(score, 10)}
+          {score && parseInt(score, 10)}
         </p>
       ));
       setUserScores(scores);
