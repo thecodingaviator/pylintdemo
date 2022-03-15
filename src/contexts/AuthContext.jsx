@@ -1,6 +1,10 @@
-import React, { useEffect, createContext, useContext, useState } from "react";
-import { auth, db } from "../firebase";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+/* eslint-disable react/jsx-no-constructed-context-values */
+/* eslint-disable react/prop-types */
+import React, {
+  useEffect, createContext, useContext, useState,
+} from 'react';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { auth, db } from '../firebase';
 
 const AuthContext = createContext();
 
@@ -40,22 +44,22 @@ export function AuthProvider({ children }) {
   function addScore(score) {
     const scoreRef = doc(db, 'users', auth.currentUser.uid);
     return setDoc(scoreRef, {
-      score: score
+      score,
     });
   }
 
   async function getScores(userID) {
-    const scoresRef = doc(db, 'users', userID ? userID : auth.currentUser.uid);
+    const scoresRef = doc(db, 'users', userID || auth.currentUser.uid);
     const scores = await getDoc(scoresRef);
 
-    if(scores.exists()) {
+    if (scores.exists()) {
       return scores.data();
     }
-    return "";
+    return '';
   }
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
       setCurrentUID(user ? user.uid : null);
       setLoading(false);
@@ -75,11 +79,11 @@ export function AuthProvider({ children }) {
     updatePassword,
     addScore,
     getScores,
-  }
+  };
 
   return (
     <AuthContext.Provider value={value}>
       {!loading && children}
     </AuthContext.Provider>
-  )
+  );
 }

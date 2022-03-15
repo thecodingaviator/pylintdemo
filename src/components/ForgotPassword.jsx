@@ -1,28 +1,30 @@
-import React, { createRef, useState } from "react";
-import { Form, Button, Card, Alert } from "react-bootstrap";
-import { useAuth } from "../contexts/AuthContext";
-import { Link } from "react-router-dom";
+/* eslint-disable react/jsx-no-bind */
+import React, { createRef, useState } from 'react';
+import {
+  Form, Button, Card, Alert,
+} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function ForgotPassword() {
   const emailRef = createRef();
   const { resetPassword } = useAuth();
 
-  const [ error, setError ] = useState('');
-  const [ loading, setLoading ] = useState(false);
-  const [ message, setMessage ] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
 
   async function handleSubmit(event) {
     event.preventDefault();
 
-    try{
+    try {
       setMessage('');
       setLoading(true);
       setError('');
       await resetPassword(emailRef.current.value);
       setMessage('Check your email for a password reset link.');
-    }
-    catch(error) {
-      setError("Failed to reset password");
+    } catch (err) {
+      setError('Failed to reset password');
     }
 
     setLoading(false);
@@ -33,7 +35,7 @@ export default function ForgotPassword() {
       <Card className="text-center mt-5">
         <Card.Header>
           <h2>
-          Reset Password
+            Reset Password
           </h2>
         </Card.Header>
         <Card.Body>
@@ -42,20 +44,24 @@ export default function ForgotPassword() {
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="email" id="email">
               <Form.Label>Email address</Form.Label>
-              <Form.Control ref={emailRef} type="email" placeholder="Enter email" required/>
+              <Form.Control ref={emailRef} type="email" placeholder="Enter email" required />
             </Form.Group>
             <Button variant="primary" type="submit" className="w-100 mt-3" disabled={loading}>
               Reset password
             </Button>
           </Form>
           <div className="w-100 text-center mt-3">
-            Login? <Link to="/">Here</Link>
+            Login?
+            {' '}
+            <Link to="/">Here</Link>
           </div>
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
-        New? <Link to="/signup">Sign up</Link>
+        New?
+        {' '}
+        <Link to="/signup">Sign up</Link>
       </div>
     </>
-  )
+  );
 }

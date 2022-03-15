@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { Card, Button, Alert } from "react-bootstrap";
-import { useAuth } from "../contexts/AuthContext";
-import { Link, useNavigate, Navigate } from "react-router-dom";
-import Editor from "./Editor";
+/* eslint-disable react/jsx-no-bind */
+import React, { useState } from 'react';
+import { Card, Button, Alert } from 'react-bootstrap';
+import { Link, useNavigate, Navigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import Editor from './Editor';
 
 export default function Dashboard() {
   const { currentUser, logout } = useAuth();
@@ -12,12 +13,11 @@ export default function Dashboard() {
   async function handleLogout() {
     setError('');
 
-    try{
+    try {
       await logout();
-      navigate("/");
-    }
-    catch(error) {
-      setError("Logout: " + error.message);
+      navigate('/');
+    } catch (err) {
+      setError(`Logout: ${err.message}`);
     }
   }
 
@@ -26,7 +26,9 @@ export default function Dashboard() {
       <Card className="mt-5">
         <Card.Header>
           <h2>
-            Hello <strong>{currentUser.email}</strong>
+            Hello
+            {' '}
+            <strong>{currentUser.email}</strong>
           </h2>
         </Card.Header>
         <Card.Body>

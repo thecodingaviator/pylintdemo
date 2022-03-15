@@ -1,7 +1,10 @@
-import React, { createRef, useState } from "react";
-import { Form, Button, Card, Alert } from "react-bootstrap";
-import { useAuth } from "../contexts/AuthContext";
-import { Link, Navigate } from "react-router-dom";
+/* eslint-disable react/jsx-no-bind */
+import React, { createRef, useState } from 'react';
+import {
+  Form, Button, Card, Alert,
+} from 'react-bootstrap';
+import { Link, Navigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function UpdateProfile() {
   const emailRef = createRef();
@@ -17,7 +20,7 @@ export default function UpdateProfile() {
     event.preventDefault();
 
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError("Passwords do not match");
+      return setError('Passwords do not match');
     }
 
     setLoading(true);
@@ -33,9 +36,9 @@ export default function UpdateProfile() {
     }
 
     Promise.all(promises).then(() => {
-      setMessage("Profile updated successfully");
-    }).catch(error => {
-      setError(error.message);
+      setMessage('Profile updated successfully');
+    }).catch((err) => {
+      setError(err.message);
     }).finally(() => {
       setLoading(false);
     });
@@ -55,7 +58,11 @@ export default function UpdateProfile() {
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="email" id="email">
               <Form.Label>Email address</Form.Label>
-              <Form.Control ref={emailRef} type="email" placeholder="Enter email" required
+              <Form.Control
+                ref={emailRef}
+                type="email"
+                placeholder="Enter email"
+                required
                 defaultValue={currentUser.email}
               />
             </Form.Group>
