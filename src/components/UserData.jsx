@@ -13,9 +13,12 @@ export default function UserData() {
     getScores(userID).then((res) => {
       let scores = res.score;
       scores = scores.split(',');
+      if (scores[0] === 'undefined') {
+        scores.shift();
+      }
       scores = scores.map((score) => (
         <p>
-          {score && parseInt(score, 10)}
+          {parseInt(score, 10)}
         </p>
       ));
       setUserScores(scores);
