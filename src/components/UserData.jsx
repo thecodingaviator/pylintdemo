@@ -1,34 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Container } from 'react-bootstrap';
 import { Link, useSearchParams } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+
+import ScatterPlot from './ScatterPlot';
 
 export default function UserData() {
   const [searchParams] = useSearchParams();
-  const [userScores, setUserScores] = useState(null);
-  const { getScores } = useAuth();
-
-  useEffect(() => {
-    const userID = searchParams.get('userID');
-    getScores(userID).then((res) => {
-      let scores = res.score;
-      scores = scores.split(',');
-      if (scores[0] === 'undefined') {
-        scores.shift();
-      }
-      scores = scores.map((score) => (
-        <p>
-          {parseInt(score, 10)}
-        </p>
-      ));
-      setUserScores(scores);
-    });
-  }, [getScores, searchParams]);
 
   return (
     <Container>
       <h1>User Data</h1>
-      <div>{userScores}</div>
+      <div>
+        <ScatterPlot id={searchParams.get('userID')} />
+      </div>
       <Link to="/">
         <button className="btn btn-primary w-100" type="button">
           Click here to go back
