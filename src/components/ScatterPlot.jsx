@@ -1,38 +1,30 @@
-/* eslint-disable */
-
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import { useAuth } from '../contexts/AuthContext';
 
 import './ScatterPlot.css';
 
-function ScatterPlot(props) {
-  const [userScores, setUserScores] = useState(null);
+// eslint-disable-next-line react/prop-types
+function ScatterPlot({ id }) {
   const { getScores } = useAuth();
   const svgRef = useRef();
 
   useEffect(() => {
-    const userID = props.id;
-    getScores(userID).then((res) => {
+    getScores(id).then((res) => {
       let scores = res.score;
       scores = scores.split(',');
       if (scores[0] === 'undefined') {
         scores.shift();
       }
-      
-      let dataArray = [];
 
-      for (let i = 0; i < scores.length; i++) {
-        dataArray.push([
+      const data = [];
+
+      for (let i = 0; i < scores.length; i += 1) {
+        data.push([
           i,
           parseInt(scores[i], 10),
         ]);
       }
-
-      setUserScores(dataArray);
-
-      const data = dataArray;
-      console.log(data);
 
       // set up container
       const w = 400;
@@ -62,7 +54,7 @@ function ScatterPlot(props) {
 
       svg.append('g')
         .call(yAxis)
-        .attr('transform', `translate(-5, 0)`);
+        .attr('transform', 'translate(-5, 0)');
 
       // set up labels
       svg.append('text')
@@ -88,7 +80,7 @@ function ScatterPlot(props) {
         .attr('r', 5)
         .attr('fill', '#1f77b4');
     });
-  }, [props]);
+  }, [id]);
 
   return (
     <div className="plot">
