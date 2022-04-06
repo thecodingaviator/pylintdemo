@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from 'react';
 
 import ReactMarkdown from 'react-markdown';
@@ -36,18 +36,20 @@ export default function MarkdownEditor() {
       <Col md={{ span: 6 }}>
         <ReactMarkdown
           components={{
+            // eslint-disable-next-line react/no-unstable-nested-components
             code({
               node, inline, className, children, ...props
             }) {
               const match = /language-(\w+)/.exec(className || '');
               return !inline && match ? (
                 <SyntaxHighlighter
-                  children={String(children).replace(/\n$/, '')}
                   style={tomorrow}
                   language={match[1]}
                   PreTag="div"
                   {...props}
-                />
+                >
+                  {String(children).replace(/\n$/, '')}
+                </SyntaxHighlighter>
               ) : (
                 <code className={className} {...props}>
                   {children}
