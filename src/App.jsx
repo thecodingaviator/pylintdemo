@@ -1,7 +1,9 @@
 import React from 'react';
 
 import { Container } from 'react-bootstrap';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {
+  BrowserRouter as Router, Route, Routes,
+} from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 
 import Dashboard from './components/Dashboard';
@@ -11,6 +13,8 @@ import ForgotPassword from './components/ForgotPassword';
 import UpdateProfile from './components/UpdateProfile';
 import UserData from './components/UserData';
 import MarkdownEditor from './components/MarkdownEditor';
+import PublicRoute from './components/PublicRoute';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
@@ -23,13 +27,61 @@ function App() {
         <Router>
           <AuthProvider>
             <Routes>
-              <Route exact path="/" element={<Dashboard />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/login" element={<Login />} />
+              {/* Public pages */}
+              <Route
+                path="/signup"
+                element={(
+                  <PublicRoute>
+                    <Signup />
+                  </PublicRoute>
+                )}
+              />
+              <Route
+                path="/login"
+                element={(
+                  <PublicRoute>
+                    <Login />
+                  </PublicRoute>
+                )}
+              />
+              <Route
+                path="/forgot-password"
+                element={(
+                  <PublicRoute>
+                    <ForgotPassword />
+                  </PublicRoute>
+              )}
+              />
+
+              {/* Non auth pages */}
               <Route path="/view/:userID" element={<UserData />} />
-              <Route path="/update-profile" element={<UpdateProfile />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/md-edit" element={<MarkdownEditor />} />
+
+              {/* Private pages */}
+              <Route
+                exact
+                path="/"
+                element={(
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                )}
+              />
+              <Route
+                path="/update-profile"
+                element={(
+                  <ProtectedRoute>
+                    <UpdateProfile />
+                  </ProtectedRoute>
+                )}
+              />
+              <Route
+                path="/markdown-editor"
+                element={(
+                  <ProtectedRoute>
+                    <MarkdownEditor />
+                  </ProtectedRoute>
+                )}
+              />
             </Routes>
           </AuthProvider>
         </Router>
