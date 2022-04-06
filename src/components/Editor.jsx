@@ -1,8 +1,9 @@
 /* eslint-disable no-console */
 /* eslint-disable no-shadow */
 import React, { useEffect } from 'react';
-
-import MonacoEditor from '@uiw/react-monacoeditor';
+import CodeMirror from '@uiw/react-codemirror';
+import { oneDark } from '@codemirror/theme-one-dark';
+import { python } from '@codemirror/lang-python';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -94,14 +95,11 @@ export default function Editor() {
   return (
     <div className="form-container">
       <div className="form-group">
-        <MonacoEditor
-          language="python"
+        <CodeMirror
+          value="print('hello world!')"
           height="50vh"
-          width="90vw"
-          value="print('Hello World')"
-          options={{
-            theme: 'vs-dark',
-          }}
+          theme={oneDark}
+          extensions={[python()]}
           onChange={handleChange}
         />
         <input type="submit" value="Submit" className="btn btn-primary mt-3 mb-3 mx-auto" disabled={inProgress} onClick={handleSubmit} />
