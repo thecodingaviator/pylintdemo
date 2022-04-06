@@ -21,12 +21,16 @@ export default function Signup() {
       return setError('Passwords do not match');
     }
 
+    if (!emailRef.current.value.endsWith('.edu')) {
+      return setError('You must use .edu email');
+    }
+
     try {
       setLoading(true);
       setError('');
       await signup(emailRef.current.value, passwordRef.current.value);
     } catch (err) {
-      setError(error.message);
+      setError(err.message);
     }
 
     setLoading(false);

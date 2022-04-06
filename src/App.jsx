@@ -10,6 +10,7 @@ import Signup from './components/Signup';
 import ForgotPassword from './components/ForgotPassword';
 import UpdateProfile from './components/UpdateProfile';
 import UserData from './components/UserData';
+import MarkdownEditor from './components/MarkdownEditor';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
               <Route path="/view/:userID" element={<UserData />} />
               <Route path="/update-profile" element={<UpdateProfile />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/md-edit" element={<MarkdownEditor />} />
             </Routes>
           </AuthProvider>
         </Router>
