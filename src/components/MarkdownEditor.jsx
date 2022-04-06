@@ -1,44 +1,32 @@
-import React from 'react';
+/* eslint-disable */
+import React, { useState } from 'react';
+
 import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
+
 import { Row, Col } from 'react-bootstrap';
+
 import CodeMirror from '@uiw/react-codemirror';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
 import { oneDark } from '@codemirror/theme-one-dark';
 
 export default function MarkdownEditor() {
-  const code = `## Title
+  const [userCode, setUserCode] = useState('# This is a title\n\nThis is a paragraph\n\n## This is heading 2\n\n```python\nprint(\'This is python\')\n```');
 
-\`\`\`jsx
-function Demo() {
-  return <div>demo</div>
-}
-\`\`\`
-
-\`\`\`bash
-# Not dependent on uiw.
-npm install @codemirror/lang-markdown --save
-npm install @codemirror/language-data --save
-\`\`\`
-
-[weisit ulr](https://uiwjs.github.io/react-codemirror/)
-
-\`\`\`go
-package main
-import "fmt"
-func main() {
-  fmt.Println("Hello, 世界")
-}
-\`\`\`
-`;
+  function handleChange(newValue) {
+    setUserCode(newValue);
+  }
 
   return (
     <Row>
       <Col md={{ span: 6 }}>
         <CodeMirror
-          value={code}
+          value={userCode}
           theme={oneDark}
+          onChange={handleChange}
+          height="90vh"
           extensions={[markdown({
             base: markdownLanguage,
             codeLanguages: languages,
@@ -46,8 +34,29 @@ func main() {
         />
       </Col>
       <Col md={{ span: 6 }}>
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>
-          {markdown}
+        <ReactMarkdown
+          components={{
+            code({
+              node, inline, className, children, ...props
+            }) {
+              const match = /language-(\w+)/.exec(className || '');
+              return !inline && match ? (
+                <SyntaxHighlighter
+                  children={String(children).replace(/\n$/, '')}
+                  style={tomorrow}
+                  language={match[1]}
+                  PreTag="div"
+                  {...props}
+                />
+              ) : (
+                <code className={className} {...props}>
+                  {children}
+                </code>
+              );
+            },
+          }}
+        >
+          {userCode}
         </ReactMarkdown>
       </Col>
     </Row>

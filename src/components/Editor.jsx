@@ -97,7 +97,7 @@ export default function Editor() {
       <div className="form-group">
         <CodeMirror
           value="print('hello world!')"
-          height="50vh"
+          height="60vh"
           theme={oneDark}
           extensions={[python()]}
           onChange={handleChange}
