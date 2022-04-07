@@ -1,9 +1,15 @@
-/* eslint-disable no-console */
-/* eslint-disable no-shadow */
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { python } from '@codemirror/lang-python';
+
+import { Alert } from 'bootstrap';
+
+import ReactMarkdown from 'react-markdown';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
+
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -14,9 +20,10 @@ export default function Editor() {
   const [responseContent, setResponseContent] = React.useState('');
   const [inProgress, setInProgress] = React.useState(false);
   const [link, setLink] = React.useState('');
+  const [error, setError] = React.useState(undefined);
   const { currentUID } = useAuth();
 
-  const { addScore, getScores } = useAuth();
+  const { addScore, getScores, getAllErrors } = useAuth();
 
   function handleChange(newValue) {
     setValue(newValue);
@@ -34,8 +41,8 @@ export default function Editor() {
     setInProgress(true);
     setResponseContent('');
 
-    await getScores().then((res) => {
-      const scores = res.score;
+    await getScores().then((resGetScores) => {
+      const scores = resGetScores.score;
 
       let code = value;
       /* Escape all backslashes in code */
@@ -64,30 +71,75 @@ export default function Editor() {
 
       let response = '';
       fetch('https://plump-linen-binder.glitch.me/code', reqOptions)
-        .then((res) => res.json())
+        .then((resGlitch) => resGlitch.json())
         .then((res) => {
           response = res.code;
           const rating = response.substring(response.indexOf('Your code has been rated'));
           response = response.substring(0, response.indexOf(',------------------'));
           response = response.substring(19 + 33);
           const regex = /,(?![^()]*\))/;
-          response = response.split(regex).map((str) => (
-            <details>
-              <summary>
-                {str.substring(15, 15 + str.substring(15).indexOf('('))}
-              </summary>
-              {str.substring(15 + str.substring(15).indexOf('('))}
-            </details>
-          ));
-          response.push(<p>{rating}</p>);
-          const ratingScore = parseFloat(rating.substring(rating.indexOf('Your code has been rated at ') + 28, rating.indexOf('/10')));
-          setResponseContent(response);
-          try {
-            addScore(`${scores},${ratingScore}`);
-          } catch (error) {
-            console.log(error);
-          }
-          setInProgress(false);
+
+          getAllErrors().then((resGetAllErrors) => {
+            const errors = resGetAllErrors;
+
+            response = response.split(regex);
+
+            response = response.map((str) => {
+              const errorCode = str.substring(str.indexOf('C'), str.indexOf('C') + 5);
+              const errorMd = errors.find((errorItem) => errorItem.id === errorCode);
+
+              return (
+                <details>
+                  <summary>
+                    {str.substring(15, 15 + str.substring(15).indexOf('('))}
+                  </summary>
+                  {errorMd && (
+                    <ReactMarkdown
+                      components={{
+                        // eslint-disable-next-line react/no-unstable-nested-components
+                        code({
+                          node, inline, className, children, ...props
+                        }) {
+                          const match = /language-(\w+)/.exec(className || '');
+                          return !inline && match ? (
+                            <SyntaxHighlighter
+                              style={tomorrow}
+                              language={match[1]}
+                              PreTag="div"
+                              {...props}
+                            >
+                              {String(children).replace(/\n$/, '')}
+                            </SyntaxHighlighter>
+                          ) : (
+                            <code className={className} {...props}>
+                              {children}
+                            </code>
+                          );
+                        },
+                      }}
+                    >
+                      {errorMd.md
+                        .replace(/\\n/g, '\n')
+                        .replace(/\\t/g, '\t')
+                        .replace(/\\r/g, '\r')
+                        .replace(/\\"/g, '"')
+                        .replace(/\\'/g, "'")}
+                    </ReactMarkdown>
+                  )}
+                </details>
+              );
+            });
+
+            response.push(<p>{rating}</p>);
+            const ratingScore = parseFloat(rating.substring(rating.indexOf('Your code has been rated at ') + 28, rating.indexOf('/10')));
+            setResponseContent(response);
+            try {
+              addScore(`${scores},${ratingScore}`);
+            } catch (errorMessage) {
+              setError(errorMessage);
+            }
+            setInProgress(false);
+          });
         });
     });
   }
@@ -95,6 +147,7 @@ export default function Editor() {
   return (
     <div className="form-container">
       <div className="form-group">
+        {error && <Alert variant="danger">{error}</Alert>}
         <CodeMirror
           value="print('hello world!')"
           height="60vh"

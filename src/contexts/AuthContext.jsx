@@ -3,7 +3,9 @@
 import React, {
   useEffect, createContext, useContext, useState,
 } from 'react';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import {
+  doc, setDoc, getDoc, getDocs, collection,
+} from 'firebase/firestore';
 import { auth, db } from '../firebase';
 
 const AuthContext = createContext();
@@ -85,9 +87,18 @@ export function AuthProvider({ children }) {
     });
   }
 
-  function getAllErrors() {
-    const errorsRef = doc(db, 'errors');
-    return getDoc(errorsRef);
+  async function getAllErrors() {
+    const querySnapshot = await getDocs(collection(db, 'errors'));
+    const errors = [];
+    querySnapshot.forEach((error) => {
+      errors.push(
+        {
+          id: error.id,
+          ...error.data(),
+        },
+      );
+    });
+    return errors;
   }
 
   useEffect(() => {

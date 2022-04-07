@@ -39,9 +39,11 @@ summary {
 
 details[open] {
     padding: .5em;
+    background-color: rgb(48 57 65);
 }
 
 details[open] summary {
     border-bottom: 1px solid #aaa;
     margin-bottom: .5em;
+    background-color: var(--bs-body-bg);
 }
