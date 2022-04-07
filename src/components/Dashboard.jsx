@@ -5,7 +5,6 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import Editor from './Editor';
-import Temporary from './Temporary';
 
 export default function Dashboard() {
   const { currentUser, logout } = useAuth();
@@ -54,7 +53,6 @@ export default function Dashboard() {
           </Card>
         </Col>
       </Row>
-      <Temporary />
       <Editor />
     </>
   );
