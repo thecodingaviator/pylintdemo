@@ -41,13 +41,6 @@ export function AuthProvider({ children }) {
     return auth.currentUser.updatePassword(password);
   }
 
-  function addScore(score) {
-    const scoreRef = doc(db, 'users', auth.currentUser.uid);
-    return setDoc(scoreRef, {
-      score,
-    });
-  }
-
   async function getScores(userID) {
     const scoresRef = doc(db, 'users', userID || auth.currentUser.uid);
     const scores = await getDoc(scoresRef);
@@ -56,6 +49,40 @@ export function AuthProvider({ children }) {
       return scores.data();
     }
     return '';
+  }
+
+  function addScore(score) {
+    const scoreRef = doc(db, 'users', auth.currentUser.uid);
+    return setDoc(scoreRef, {
+      score,
+    });
+  }
+
+  async function getErrorMarkdown(errorCode) {
+    const mdRef = doc(db, 'errors', errorCode || auth.currentUser.uid);
+    const markdown = await getDoc(mdRef);
+
+    if (markdown.exists()) {
+      return markdown.data();
+    }
+    return false;
+  }
+
+  async function getAdmins() {
+    const adminsRef = doc(db, 'admins', 'admins');
+    const admins = await getDoc(adminsRef);
+
+    if (admins.exists()) {
+      return admins.data();
+    }
+    return false;
+  }
+
+  function addErrorMarkdown(errorCode, markdown) {
+    const mdRef = doc(db, 'errors', errorCode);
+    return setDoc(mdRef, {
+      md: markdown,
+    });
   }
 
   useEffect(() => {
@@ -79,6 +106,9 @@ export function AuthProvider({ children }) {
     updatePassword,
     addScore,
     getScores,
+    getErrorMarkdown,
+    addErrorMarkdown,
+    getAdmins,
   };
 
   return (
