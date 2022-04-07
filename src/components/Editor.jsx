@@ -10,7 +10,7 @@ import { useAuth } from '../contexts/AuthContext';
 import './Editor.css';
 
 export default function Editor() {
-  const [value, setValue] = React.useState('');
+  const [value, setValue] = React.useState('print(\'hello world!\')');
   const [responseContent, setResponseContent] = React.useState('');
   const [inProgress, setInProgress] = React.useState(false);
   const [link, setLink] = React.useState('');

@@ -5,7 +5,9 @@ import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
-import { Row, Col, Button } from 'react-bootstrap';
+import {
+  Row, Col, Button, Alert,
+} from 'react-bootstrap';
 
 import CodeMirror from '@uiw/react-codemirror';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
@@ -27,6 +29,7 @@ export default function MarkdownEditor() {
   } = useAuth();
   const [errorCode, setErrorCode] = useState('C0114');
   const [inProgress, setInProgress] = useState(false);
+  const [error, setError] = useState(undefined);
 
   function handleChange(newValue) {
     setUserCode(newValue);
@@ -58,7 +61,7 @@ export default function MarkdownEditor() {
     try {
       addErrorMarkdown(errorCode, code);
     } catch (err) {
-      console.log(err);
+      setError(err);
     }
 
     setInProgress(false);
@@ -108,6 +111,11 @@ export default function MarkdownEditor() {
           <Button variant="primary" type="submit" className="dropdown-nav-option" onClick={handleSubmit} disabled={inProgress}>
             Save
           </Button>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={{ span: 12 }}>
+          {error && <Alert variant="danger">{error}</Alert>}
         </Col>
       </Row>
       <Row className="mt-5 mb-5">

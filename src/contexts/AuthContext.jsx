@@ -85,6 +85,11 @@ export function AuthProvider({ children }) {
     });
   }
 
+  function getAllErrors() {
+    const errorsRef = doc(db, 'errors');
+    return getDoc(errorsRef);
+  }
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
@@ -109,6 +114,7 @@ export function AuthProvider({ children }) {
     getErrorMarkdown,
     addErrorMarkdown,
     getAdmins,
+    getAllErrors,
   };
 
   return (
