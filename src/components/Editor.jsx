@@ -77,12 +77,16 @@ export default function Editor() {
           const rating = response.substring(response.indexOf('Your code has been rated'));
           response = response.substring(0, response.indexOf(',------------------'));
           response = response.substring(19 + 33);
-          const regex = /,(?![^()]*\))/;
 
           getAllErrors().then((resGetAllErrors) => {
             const errors = resGetAllErrors;
 
+            const regex = /,(?![^()]*\))/;
             response = response.split(regex);
+
+            if (response.length === 1 && response[0] === '') {
+              response = [];
+            }
 
             response = response.map((str) => {
               const errorCode = str.substring(str.indexOf('C'), str.indexOf('C') + 5);
@@ -130,14 +134,17 @@ export default function Editor() {
               );
             });
 
-            response.push(<p>{rating}</p>);
-            const ratingScore = parseFloat(rating.substring(rating.indexOf('Your code has been rated at ') + 28, rating.indexOf('/10')));
+            response.push(<h3 className="w-100 text-center mb-5">{rating}</h3>);
+
+            const ratingScore = parseFloat(rating.substring(rating.indexOf('Your code has been rated at ') + 28, rating.indexOf('/10.00')));
             setResponseContent(response);
+
             try {
               addScore(`${scores},${ratingScore}`);
             } catch (errorMessage) {
               setError(errorMessage);
             }
+
             setInProgress(false);
           });
         });
