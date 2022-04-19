@@ -6,14 +6,12 @@ import { python } from '@codemirror/lang-python';
 
 import { Alert } from 'bootstrap';
 
-import ReactMarkdown from 'react-markdown';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
-
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 import './Editor.css';
+import DetailsSummary from './DetailsSummary';
+import { escapeCode } from '../assets/utilFunctions';
 
 export default function Editor() {
   const [value, setValue] = React.useState('print(\'hello world!\')');
@@ -44,20 +42,7 @@ export default function Editor() {
     await getScores().then((resGetScores) => {
       const scores = resGetScores.score;
 
-      let code = value;
-      /* Escape all backslashes in code */
-      code = code.replace(/\\/g, '\\\\');
-      /* Escape all quotes in code */
-      code = code.replace(/'/g, "\\'");
-      code = code.replace(/"/g, '\\"');
-      /* Escape all newlines in code */
-      code = code.replace(/\n/g, '\\n');
-      /* Escape all tabs in code */
-      code = code.replace(/\t/g, '\\t');
-      /* Escape all carriage returns in code */
-      code = code.replace(/\r/g, '\\r');
-      /* Escape all linefeeds in code */
-      code = code.replace(/\f/g, '\\f');
+      const code = escapeCode(value);
 
       const reqOptions = {
         method: 'POST',
@@ -90,47 +75,10 @@ export default function Editor() {
 
             response = response.map((str) => {
               const errorCode = str.substring(str.indexOf('C'), str.indexOf('C') + 5);
-              const errorMd = errors.find((errorItem) => errorItem.id === errorCode);
+              const errormd = errors.find((errorItem) => errorItem.id === errorCode);
 
               return (
-                <details>
-                  <summary>
-                    {str.substring(15, 15 + str.substring(15).indexOf('('))}
-                  </summary>
-                  {errorMd && (
-                    <ReactMarkdown
-                      components={{
-                        // eslint-disable-next-line react/no-unstable-nested-components
-                        code({
-                          node, inline, className, children, ...props
-                        }) {
-                          const match = /language-(\w+)/.exec(className || '');
-                          return !inline && match ? (
-                            <SyntaxHighlighter
-                              style={tomorrow}
-                              language={match[1]}
-                              PreTag="div"
-                              {...props}
-                            >
-                              {String(children).replace(/\n$/, '')}
-                            </SyntaxHighlighter>
-                          ) : (
-                            <code className={className} {...props}>
-                              {children}
-                            </code>
-                          );
-                        },
-                      }}
-                    >
-                      {errorMd.md
-                        .replace(/\\n/g, '\n')
-                        .replace(/\\t/g, '\t')
-                        .replace(/\\r/g, '\r')
-                        .replace(/\\"/g, '"')
-                        .replace(/\\'/g, "'")}
-                    </ReactMarkdown>
-                  )}
-                </details>
+                <DetailsSummary str={str} errormd={errormd} />
               );
             });
 
