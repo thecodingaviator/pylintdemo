@@ -1,0 +1,16 @@
+.quiz-carousel {
+  overflow-x: hidden;
+}
+
+.quiz-carousel-fade > * {
+  animation: show-quiz 0.5s ease-in-out forwards;
+}
+
+@keyframes show-quiz {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
