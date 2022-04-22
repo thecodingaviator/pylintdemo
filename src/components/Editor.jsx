@@ -78,7 +78,7 @@ export default function Editor() {
               const errormd = errors.find((errorItem) => errorItem.id === errorCode);
 
               return (
-                <DetailsSummary str={str} errormd={errormd} />
+                <DetailsSummary str={str} errormd={errormd} errorCode={errorCode} />
               );
             });
 

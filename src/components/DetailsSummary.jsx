@@ -15,8 +15,7 @@ export default function DetailsSummary(props) {
   const { str, errormd } = props;
   const [show, setShow] = React.useState(false);
 
-  let splitStr = str.substring(15);
-  splitStr = splitStr.split(':');
+  const splitStr = str.substring(15).split(':');
   splitStr[3] = splitStr[3].substring(0, splitStr[3].indexOf(' ('));
 
   return (
@@ -25,48 +24,54 @@ export default function DetailsSummary(props) {
         {`At line ${splitStr[0]} character ${splitStr[1]}: ${splitStr[3]}`}
       </summary>
       {errormd && (
-        <div className={`quiz-carousel ${show ? 'quiz-carousel-fade' : ''}`}>
-          <ReactMarkdown
-            components={{
-              // eslint-disable-next-line react/no-unstable-nested-components
-              code({
-                node, inline, className, children, ...innerProps
-              }) {
-                const match = /language-(\w+)/.exec(className || '');
-                return !inline && match ? (
-                  <SyntaxHighlighter
-                    style={tomorrow}
-                    language={match[1]}
-                    PreTag="div"
-                    {...props}
-                  >
-                    {String(children).replace(/\n$/, '')}
-                  </SyntaxHighlighter>
-                ) : (
-                  <code className={className} {...innerProps}>
-                    {children}
-                  </code>
-                );
-              },
-            }}
-          >
-            {unscapeCode(errormd.md)}
-          </ReactMarkdown>
-          <Row className="mb-2">
-            <Col sm={{ span: 2, offset: 10 }}>
-              <Button
-                variant="primary"
-                className="w-100"
-                onClick={() => {
-                  setShow(!show);
+        <>
+          {!show && (
+            <div className={`quiz-carousel ${show ? 'quiz-carousel-fade' : ''}`}>
+              <ReactMarkdown
+                components={{
+                  // eslint-disable-next-line react/no-unstable-nested-components
+                  code({
+                    node, inline, className, children, ...innerProps
+                  }) {
+                    const match = /language-(\w+)/.exec(className || '');
+                    return !inline && match ? (
+                      <SyntaxHighlighter
+                        style={tomorrow}
+                        language={match[1]}
+                        PreTag="div"
+                        {...props}
+                      >
+                        {String(children).replace(/\n$/, '')}
+                      </SyntaxHighlighter>
+                    ) : (
+                      <code className={className} {...innerProps}>
+                        {children}
+                      </code>
+                    );
+                  },
                 }}
               >
-                Quiz
-              </Button>
-            </Col>
-          </Row>
-          <QuizComponent errormd={errormd} />
-        </div>
+                {unscapeCode(errormd.md)}
+              </ReactMarkdown>
+              <Row className="mb-2">
+                <Col sm={{ span: 2, offset: 10 }}>
+                  <Button
+                    variant="primary"
+                    className="w-100"
+                    onClick={() => {
+                      setShow(!show);
+                    }}
+                  >
+                    Quiz
+                  </Button>
+                </Col>
+              </Row>
+            </div>
+          )}
+          {(show && (
+            <QuizComponent errormd={errormd} />
+          ))}
+        </>
       )}
     </details>
   );
