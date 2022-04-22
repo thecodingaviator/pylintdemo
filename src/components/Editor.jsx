@@ -12,6 +12,7 @@ import { useAuth } from '../contexts/AuthContext';
 import './Editor.css';
 import DetailsSummary from './DetailsSummary';
 import { escapeCode } from '../assets/utilFunctions';
+import Temporary from './Temporary';
 
 export default function Editor() {
   const [value, setValue] = React.useState('print(\'hello world!\')');
@@ -101,6 +102,7 @@ export default function Editor() {
 
   return (
     <div className="form-container">
+      <Temporary />
       <div className="form-group">
         {error && <Alert variant="danger">{error}</Alert>}
         <CodeMirror

@@ -4,7 +4,7 @@ import React, {
   useEffect, createContext, useContext, useState,
 } from 'react';
 import {
-  doc, setDoc, getDoc, getDocs, collection,
+  doc, setDoc, getDoc, getDocs, collection, updateDoc,
 } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 
@@ -80,10 +80,16 @@ export function AuthProvider({ children }) {
     return false;
   }
 
-  function addErrorMarkdown(errorCode, markdown) {
+  function addErrorMarkdown(errorCode, md, question, answer1, answer2, answer3, answer4, key) {
     const mdRef = doc(db, 'errors', errorCode);
     return setDoc(mdRef, {
-      md: markdown,
+      md,
+      question,
+      answer1,
+      answer2,
+      answer3,
+      answer4,
+      key,
     });
   }
 
@@ -101,12 +107,10 @@ export function AuthProvider({ children }) {
     return errors;
   }
 
-  function addQuiz(errorCode, title, question, solution) {
+  function addQuiz(errorCode, md) {
     const mdRef = doc(db, 'errors', errorCode);
-    return setDoc(mdRef, {
-      title,
-      question,
-      solution,
+    return updateDoc(mdRef, {
+      md,
     });
   }
 
