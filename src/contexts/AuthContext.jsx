@@ -80,16 +80,10 @@ export function AuthProvider({ children }) {
     return false;
   }
 
-  function addErrorMarkdown(errorCode, md, question, answer1, answer2, answer3, answer4, key) {
+  function addErrorMarkdown(errorCode, md) {
     const mdRef = doc(db, 'errors', errorCode);
-    return setDoc(mdRef, {
+    return updateDoc(mdRef, {
       md,
-      question,
-      answer1,
-      answer2,
-      answer3,
-      answer4,
-      key,
     });
   }
 
@@ -107,10 +101,15 @@ export function AuthProvider({ children }) {
     return errors;
   }
 
-  function addQuiz(errorCode, md) {
+  function addQuiz(errorCode, question, answer1, answer2, answer3, answer4, key) {
     const mdRef = doc(db, 'errors', errorCode);
     return updateDoc(mdRef, {
-      md,
+      question,
+      answer1,
+      answer2,
+      answer3,
+      answer4,
+      key,
     });
   }
 
