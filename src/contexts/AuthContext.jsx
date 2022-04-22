@@ -101,6 +101,15 @@ export function AuthProvider({ children }) {
     return errors;
   }
 
+  function addQuiz(errorCode, title, question, solution) {
+    const mdRef = doc(db, 'errors', errorCode);
+    return setDoc(mdRef, {
+      title,
+      question,
+      solution,
+    });
+  }
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
@@ -126,6 +135,7 @@ export function AuthProvider({ children }) {
     addErrorMarkdown,
     getAdmins,
     getAllErrors,
+    addQuiz,
   };
 
   return (
