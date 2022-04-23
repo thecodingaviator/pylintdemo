@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 import './ScatterPlot.css';
 

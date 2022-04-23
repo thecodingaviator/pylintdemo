@@ -3,7 +3,7 @@ import {
   Form, Button, Card, Alert, Row, Col,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function ForgotPassword() {
   const emailRef = createRef();

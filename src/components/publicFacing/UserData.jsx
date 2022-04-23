@@ -2,7 +2,7 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 import { Link, useSearchParams } from 'react-router-dom';
 
-import ScatterPlot from './ScatterPlot';
+import ScatterPlot from '../support/ScatterPlot';
 
 export default function UserData() {
   const [searchParams] = useSearchParams();

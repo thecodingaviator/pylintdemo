@@ -7,11 +7,11 @@ import { python } from '@codemirror/lang-python';
 import { Alert } from 'bootstrap';
 
 import { Link } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 import './Editor.css';
 import DetailsSummary from './DetailsSummary';
-import { escapeCode } from '../assets/utilFunctions';
+import { escapeCode } from '../../assets/utilFunctions';
 
 export default function Editor() {
   const [value, setValue] = React.useState('print(\'hello world!\')');

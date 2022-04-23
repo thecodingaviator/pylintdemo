@@ -16,9 +16,9 @@ import { oneDark } from '@codemirror/theme-one-dark';
 
 import { Navigate } from 'react-router-dom';
 
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 
-import errorCodeArray from '../assets/errorCodeArray';
+import errorCodeArray from '../../assets/errorCodeArray';
 
 import './MarkdownEditor.scss';
 

@@ -6,15 +6,15 @@ import {
 } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 
-import Dashboard from './components/Dashboard';
-import Login from './components/Login';
-import Signup from './components/Signup';
-import ForgotPassword from './components/ForgotPassword';
-import UpdateProfile from './components/UpdateProfile';
-import UserData from './components/UserData';
-import MarkdownEditor from './components/MarkdownEditor';
-import PublicRoute from './components/PublicRoute';
-import ProtectedRoute from './components/ProtectedRoute';
+import Dashboard from './components/dashboard/Dashboard';
+import Login from './components/publicFacing/Login';
+import Signup from './components/publicFacing/Signup';
+import ForgotPassword from './components/publicFacing/ForgotPassword';
+import UpdateProfile from './components/dashboard/UpdateProfile';
+import UserData from './components/publicFacing/UserData';
+import MarkdownEditor from './components/support/MarkdownEditor';
+import PublicRoute from './components/support/PublicRoute';
+import ProtectedRoute from './components/support/ProtectedRoute';
 
 function App() {
   return (

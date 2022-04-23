@@ -2,9 +2,9 @@
 import React from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 
-import QuizComponent from './QuizComponent';
+import QuizComponent from '../support/QuizComponent';
 import './DetailsSummary.scss';
-import ReactMarkdownComponent from './ReactMarkdownComponent';
+import ReactMarkdownComponent from '../support/ReactMarkdownComponent';
 
 export default function DetailsSummary(props) {
   const { str, errormd } = props;
