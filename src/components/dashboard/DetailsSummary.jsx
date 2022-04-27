@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 
 import QuizComponent from '../support/QuizComponent';
@@ -9,14 +9,18 @@ import ReactMarkdownComponent from '../support/ReactMarkdownComponent';
 export default function DetailsSummary(props) {
   const { str, errormd } = props;
   const [show, setShow] = React.useState(false);
+  const [splitStr, setSplitStr] = React.useState([]);
 
-  const splitStr = str.substring(15).split(':');
-  splitStr[3] = splitStr[3].substring(0, splitStr[3].indexOf(' ('));
+  useEffect(() => {
+    const localSplitStr = str.split(':');
+    localSplitStr[4] = localSplitStr[4].substring(0, localSplitStr[4].indexOf(' ('));
+    setSplitStr(localSplitStr);
+  }, [str]);
 
   return (
     <details>
       <summary>
-        {`At line ${splitStr[0]} character ${splitStr[1]}: ${splitStr[3]}`}
+        {`At line ${splitStr[1]} character ${splitStr[2]}: ${splitStr[4]}`}
       </summary>
       {errormd && (
         <>

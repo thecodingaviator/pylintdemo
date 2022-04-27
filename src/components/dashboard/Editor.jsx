@@ -44,6 +44,8 @@ export default function Editor() {
 
       const code = escapeCode(value);
 
+      const linesofCode = value.split(/\r\n|\r|\n/).length;
+
       const reqOptions = {
         method: 'POST',
         headers: {
@@ -59,14 +61,14 @@ export default function Editor() {
         .then((resGlitch) => resGlitch.json())
         .then((res) => {
           response = res.code;
-          const rating = response.substring(response.indexOf('Your code has been rated'));
+          let rating = response.substring(response.indexOf('Your code has been rated'));
           response = response.substring(0, response.indexOf(',------------------'));
           response = response.substring(19 + 33);
 
           getAllErrors().then((resGetAllErrors) => {
             const errors = resGetAllErrors;
 
-            const regex = /,(?![^()]*\))/;
+            const regex = /,s/g;
             response = response.split(regex);
 
             if (response.length === 1 && response[0] === '') {
@@ -83,14 +85,20 @@ export default function Editor() {
             });
 
             response.push(<h3 className="w-100 text-center mb-5">{rating}</h3>);
-
-            const ratingScore = parseFloat(rating.substring(rating.indexOf('Your code has been rated at ') + 28, rating.indexOf('/10.00')));
             setResponseContent(response);
 
-            try {
-              addScore(`${scores},${ratingScore}`);
-            } catch (errorMessage) {
-              setError(errorMessage);
+            rating = rating.substring(rating.indexOf('Your code has been rated at ') + ('Your code has been rated at '.length));
+            rating = rating.substring(0, rating.indexOf('/10'));
+            rating = parseInt(rating, 10);
+
+            const ratingScore = parseInt(rating, 10) + 10;
+
+            if (ratingScore) {
+              try {
+                addScore(`${scores || 0},${ratingScore / linesofCode}`);
+              } catch (errorMessage) {
+                setError(errorMessage);
+              }
             }
 
             setInProgress(false);
