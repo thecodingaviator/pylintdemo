@@ -42,7 +42,7 @@ export default function LineGraph(props) {
         max: maxY,
         min: 0,
         ticks: {
-          stepSize: 0.5,
+          stepSize: maxY / 10,
         },
       },
     },
