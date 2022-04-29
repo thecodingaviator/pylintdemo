@@ -36,6 +36,15 @@ export default function LineGraph(props) {
         position: 'top',
       },
     },
+    scales: {
+      y: [
+        {
+          ticks: {
+            stepSize: 0.5,
+          },
+        },
+      ],
+    },
   };
 
   const data = {

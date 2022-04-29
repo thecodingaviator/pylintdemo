@@ -61,7 +61,7 @@ export default function Editor() {
         .then((resGlitch) => resGlitch.json())
         .then((res) => {
           response = res.code;
-          let rating = response.substring(response.indexOf('Your code has been rated'));
+          const rating = response.substring(response.indexOf('Your code has been rated'));
           response = response.substring(0, response.indexOf(',------------------'));
           response = response.substring(19 + 33);
 
@@ -87,15 +87,11 @@ export default function Editor() {
             response.push(<h3 className="w-100 text-center mb-5">{rating}</h3>);
             setResponseContent(response);
 
-            rating = rating.substring(rating.indexOf('Your code has been rated at ') + ('Your code has been rated at '.length));
-            rating = rating.substring(0, rating.indexOf('/10'));
-            rating = parseInt(rating, 10);
-
-            const ratingScore = parseInt(rating, 10) + 10;
+            const ratingScore = (response.length - 1) / linesofCode;
 
             if (ratingScore) {
               try {
-                addScore(`${scores || 0},${ratingScore / linesofCode}`);
+                addScore(`${scores || 0},${ratingScore}`);
               } catch (errorMessage) {
                 setError(errorMessage);
               }
