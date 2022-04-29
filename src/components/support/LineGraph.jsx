@@ -19,6 +19,7 @@ export default function LineGraph(props) {
   const { id } = props;
   const [scoreData, setScoreData] = React.useState([]);
   const [labels, setLabels] = React.useState([]);
+  const [maxY, setMaxY] = React.useState(0);
 
   ChartJS.register(
     CategoryScale,
@@ -37,13 +38,13 @@ export default function LineGraph(props) {
       },
     },
     scales: {
-      y: [
-        {
-          ticks: {
-            stepSize: 0.5,
-          },
+      y: {
+        max: maxY,
+        min: 0,
+        ticks: {
+          stepSize: 0.5,
         },
-      ],
+      },
     },
   };
 
@@ -67,6 +68,8 @@ export default function LineGraph(props) {
       if (scores[0] === 'undefined') {
         scores.shift();
       }
+
+      setMaxY(Math.max(...scores));
 
       const dataNew = [];
 
