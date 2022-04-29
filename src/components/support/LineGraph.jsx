@@ -39,7 +39,7 @@ export default function LineGraph(props) {
     },
     scales: {
       y: {
-        max: maxY * 1.1,
+        max: Math.floor(maxY * 1.1),
         min: 0,
         ticks: {
           stepSize: maxY / 10,

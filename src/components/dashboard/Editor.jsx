@@ -87,7 +87,7 @@ export default function Editor() {
             response.push(<h3 className="w-100 text-center mb-5">{rating}</h3>);
             setResponseContent(response);
 
-            const ratingScore = ((response.length - 1) / linesofCode) * 100;
+            const ratingScore = Math.floor(((response.length - 1) / linesofCode) * 100);
 
             if (ratingScore) {
               try {
