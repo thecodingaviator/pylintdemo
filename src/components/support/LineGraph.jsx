@@ -42,7 +42,7 @@ export default function LineGraph(props) {
         max: Math.floor(maxY * 1.1),
         min: 0,
         ticks: {
-          stepSize: maxY / 10,
+          stepSize: Math.floor(maxY / 10),
         },
       },
     },
