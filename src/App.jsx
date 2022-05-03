@@ -15,6 +15,7 @@ import UserData from './components/publicFacing/UserData';
 import MarkdownEditor from './components/support/MarkdownEditor';
 import PublicRoute from './components/support/PublicRoute';
 import ProtectedRoute from './components/support/ProtectedRoute';
+import FooterComp from './components/publicFacing/Footer';
 
 function App() {
   return (
@@ -85,6 +86,7 @@ function App() {
             </Routes>
           </AuthProvider>
         </Router>
+        <FooterComp />
       </div>
     </Container>
   );
