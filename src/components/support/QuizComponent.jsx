@@ -28,7 +28,7 @@ export default function QuizComponent() {
           <ReactMarkdownComponent md={errormd.question} />
         </Col>
       </Row>
-      <Row>
+      <Row className="mt-3">
         <Col md={{ span: 3 }} sm={{ span: 6 }}>
           <Button variant="primary" className="w-100" id="option-1" onClick={handleAnswerSubmit} disabled={disabled}>
             {errormd.answer1}

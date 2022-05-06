@@ -27,7 +27,9 @@ export default function DetailsSummary(props) {
           <Row className="mb-2">
             <Col sm={{ span: 2, offset: 10 }}>
               <Link to={`/quiz/${errormd.id}`} onClick={() => localStorage.setItem(`${errormd.id}`, JSON.stringify(errormd))} target="_blank" rel="noopener noreferrer">
-                Quiz
+                <button className="btn btn-primary w-100" type="button">
+                  Quiz
+                </button>
               </Link>
             </Col>
           </Row>
