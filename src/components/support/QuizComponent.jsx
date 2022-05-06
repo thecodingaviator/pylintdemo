@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
-
+import { useParams } from 'react-router-dom';
 import ReactMarkdownComponent from './ReactMarkdownComponent';
 
-export default function QuizComponent(props) {
-  const { errormd } = props;
-
+export default function QuizComponent() {
   const [disabled, setDisabled] = React.useState(false);
+  const { errorCode } = useParams();
+  const errormd = JSON.parse(localStorage.getItem(`${errorCode}`));
 
   function handleAnswerSubmit(e) {
     e.preventDefault();

@@ -16,6 +16,7 @@ import MarkdownEditor from './components/support/MarkdownEditor';
 import PublicRoute from './components/support/PublicRoute';
 import ProtectedRoute from './components/support/ProtectedRoute';
 import FooterComp from './components/publicFacing/Footer';
+import QuizComponent from './components/support/QuizComponent';
 
 function App() {
   return (
@@ -64,6 +65,15 @@ function App() {
                 element={(
                   <ProtectedRoute>
                     <Dashboard />
+                  </ProtectedRoute>
+                )}
+              />
+              <Route
+                exact
+                path="/quiz/:errorCode"
+                element={(
+                  <ProtectedRoute>
+                    <QuizComponent />
                   </ProtectedRoute>
                 )}
               />

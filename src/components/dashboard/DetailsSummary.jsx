@@ -1,14 +1,13 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect } from 'react';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 
-import QuizComponent from '../support/QuizComponent';
+import { Link } from 'react-router-dom';
 import './DetailsSummary.scss';
 import ReactMarkdownComponent from '../support/ReactMarkdownComponent';
 
 export default function DetailsSummary(props) {
   const { str, errormd } = props;
-  const [show, setShow] = React.useState(false);
   const [splitStr, setSplitStr] = React.useState([]);
 
   useEffect(() => {
@@ -23,29 +22,16 @@ export default function DetailsSummary(props) {
         {`At line ${splitStr[1]} character ${splitStr[2]}: ${splitStr[4]}`}
       </summary>
       {errormd && (
-        <>
-          {!show && (
-            <div className={`quiz-carousel ${show ? 'quiz-carousel-fade' : ''}`}>
-              <ReactMarkdownComponent md={errormd.md} />
-              <Row className="mb-2">
-                <Col sm={{ span: 2, offset: 10 }}>
-                  <Button
-                    variant="primary"
-                    className="w-100"
-                    onClick={() => {
-                      setShow(!show);
-                    }}
-                  >
-                    Quiz
-                  </Button>
-                </Col>
-              </Row>
-            </div>
-          )}
-          {(show && (
-            <QuizComponent errormd={errormd} />
-          ))}
-        </>
+        <div>
+          <ReactMarkdownComponent md={errormd.md} />
+          <Row className="mb-2">
+            <Col sm={{ span: 2, offset: 10 }}>
+              <Link to={`/quiz/${errormd.id}`} onClick={() => localStorage.setItem(`${errormd.id}`, JSON.stringify(errormd))} target="_blank" rel="noopener noreferrer">
+                Quiz
+              </Link>
+            </Col>
+          </Row>
+        </div>
       )}
     </details>
   );
