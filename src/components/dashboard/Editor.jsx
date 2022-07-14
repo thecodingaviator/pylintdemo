@@ -85,6 +85,7 @@ export default function Editor() {
             });
 
             response.push(<h3 className="w-100 text-center mb-5">{rating}</h3>);
+            response.replace(':x:', '❌').replace(':heavy_check_mark:', '✅');
             setResponseContent(response);
 
             const ratingScore = Math.floor(((response.length - 1) / linesofCode) * 100);
