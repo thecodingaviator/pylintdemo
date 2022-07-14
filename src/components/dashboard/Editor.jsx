@@ -77,7 +77,7 @@ export default function Editor() {
 
             response = response.map((str) => {
               const errorCode = str.substring(str.indexOf('C'), str.indexOf('C') + 5);
-              const errormd = errors.find((errorItem) => errorItem.id === errorCode);
+              const errormd = errors.find((errorItem) => errorItem.id === errorCode).replace(':x:', '❌').replace(':heavy_check_mark:', '✅');
 
               return (
                 <DetailsSummary str={str} errormd={errormd} errorCode={errorCode} />
