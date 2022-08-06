@@ -80,7 +80,7 @@ export default function Editor() {
               const errormd = errors.find((errorItem) => errorItem.id === errorCode);
 
               // replace representations with emojis and remove resources
-              if (errormd.md) {
+              if (errormd && errormd.md) {
                 errormd.md = errormd.md.replace(':x:', '❌').replace(':heavy_check_mark:', '✅');
                 if (errormd.md.indexOf('Related resources') !== -1) {
                   errormd.md = errormd.md.substring(0, errormd.md.indexOf('Related resources'));
