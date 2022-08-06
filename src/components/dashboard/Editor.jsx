@@ -76,7 +76,10 @@ export default function Editor() {
             }
 
             response = response.map((str) => {
-              const errorCode = str.substring(str.indexOf('C'), str.indexOf('C') + 5);
+              const startIndex = str.indexOf(': ') + 2;
+              const endIndex = str.indexOf(': ', startIndex + 2);
+              const errorCode = str.substring(startIndex, endIndex);
+
               const errormd = errors.find((errorItem) => errorItem.id === errorCode);
 
               // replace representations with emojis and remove resources
