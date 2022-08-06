@@ -77,7 +77,15 @@ export default function Editor() {
 
             response = response.map((str) => {
               const errorCode = str.substring(str.indexOf('C'), str.indexOf('C') + 5);
-              const errormd = errors.find((errorItem) => errorItem.id === errorCode).replace(':x:', '❌').replace(':heavy_check_mark:', '✅');
+              const errormd = errors.find((errorItem) => errorItem.id === errorCode);
+
+              // replace representations with emojis and remove resources
+              if (errormd.md) {
+                errormd.md = errormd.md.replace(':x:', '❌').replace(':heavy_check_mark:', '✅');
+                if (errormd.md.indexOf('Related resources') !== -1) {
+                  errormd.md = errormd.md.substring(0, errormd.md.indexOf('Related resources'));
+                }
+              }
 
               return (
                 <DetailsSummary str={str} errormd={errormd} errorCode={errorCode} />
